@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Shivam-s-workspace-73p3c9.eu-central-1.xata.sh/db/shivam_sceevi",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
