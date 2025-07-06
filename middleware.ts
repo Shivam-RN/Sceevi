@@ -1,18 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./lib/auth";
-import { headers } from "next/headers";
-import aj, {createMiddleware, detectBot, shield } from "./lib/arcjet";
-
-export async function middleware(request: NextRequest, response:NextResponse ) {
-    const session =  await auth.api.getSession({
-headers: await headers()
-    })
-
-    if (!session) {
-        return NextResponse.redirect(new URL("/sign-in", request.url));
-}
-return NextResponse.next();
-}
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import aj, { createMiddleware, detectBot, shield } from "./lib/arcjet";
 
 const validate = aj
   .withRule(
@@ -23,9 +11,13 @@ const validate = aj
   .withRule(
     detectBot({
       mode: "LIVE",
-      allow: ["CATEGORY:SEARCH_ENGINE", "G00G1E_CRAWLER"], 
+      allow: ["CATEGORY:SEARCH_ENGINE", "G00G1E_CRAWLER"],
     })
   );
+
+export function middleware(request: NextRequest) {
+  return NextResponse.next();
+}
 
 export default createMiddleware(validate);
 
